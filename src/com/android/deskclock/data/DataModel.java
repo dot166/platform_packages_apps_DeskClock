@@ -16,6 +16,17 @@
 
 package com.android.deskclock.data;
 
+import static android.content.Context.AUDIO_SERVICE;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.media.AudioManager.FLAG_SHOW_UI;
+import static android.media.AudioManager.STREAM_ALARM;
+import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+import static android.provider.Settings.ACTION_SOUND_SETTINGS;
+import static android.provider.Settings.EXTRA_APP_PACKAGE;
+import static com.android.deskclock.Utils.enforceMainLooper;
+import static com.android.deskclock.Utils.enforceNotMainLooper;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -24,30 +35,21 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.StringRes;
-
 import android.provider.Settings;
 import android.view.View;
 
+import androidx.annotation.Keep;
+import androidx.annotation.StringRes;
+
 import com.android.deskclock.Predicate;
 import com.android.deskclock.R;
-import com.android.deskclock.Utils;
 import com.android.deskclock.timer.TimerService;
 
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.Context.AUDIO_SERVICE;
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static android.media.AudioManager.FLAG_SHOW_UI;
-import static android.media.AudioManager.STREAM_ALARM;
-import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-import static android.provider.Settings.ACTION_SOUND_SETTINGS;
-import static com.android.deskclock.Utils.enforceMainLooper;
-import static com.android.deskclock.Utils.enforceNotMainLooper;
 
 /**
  * All application-wide data is accessible through this singleton.
@@ -65,9 +67,7 @@ public final class DataModel {
 
     /** Indicates the reason alarms may not fire or may fire silently. */
     public enum SilentSetting {
-        @SuppressWarnings("unchecked")
         DO_NOT_DISTURB(R.string.alarms_blocked_by_dnd, 0, Predicate.FALSE, null),
-        @SuppressWarnings("unchecked")
         MUTED_VOLUME(R.string.alarm_volume_muted,
                 R.string.unmute_alarm_volume,
                 Predicate.TRUE,
@@ -76,7 +76,6 @@ public final class DataModel {
                 R.string.change_setting_action,
                 new ChangeSoundActionPredicate(),
                 new ChangeSoundSettingsListener()),
-        @SuppressWarnings("unchecked")
         BLOCKED_NOTIFICATIONS(R.string.app_notifications_blocked,
                 R.string.change_setting_action,
                 Predicate.TRUE,
@@ -442,15 +441,6 @@ public final class DataModel {
     }
 
     /**
-     * @return the timer that last expired and is still expired now; {@code null} if no timers are
-     *      expired
-     */
-    public Timer getMostRecentExpiredTimer() {
-        enforceMainLooper();
-        return mTimerModel.getMostRecentExpiredTimer();
-    }
-
-    /**
      * @param length the length of the timer in milliseconds
      * @param label describes the purpose of the timer
      * @param deleteAfterUse {@code true} indicates the timer should be deleted when it is reset
@@ -512,11 +502,11 @@ public final class DataModel {
 
     /**
      * @param timer the timer to be reset
-     * @return the reset {@code timer}
      */
-    public Timer resetTimer(Timer timer) {
+    @Keep
+    public void resetTimer(Timer timer) {
         enforceMainLooper();
-        return mTimerModel.resetTimer(timer, false /* allowDelete */, 0 /* eventLabelId */);
+        mTimerModel.resetTimer(timer, false /* allowDelete */, 0 /* eventLabelId */);
     }
 
     /**
@@ -526,11 +516,10 @@ public final class DataModel {
      *
      * @param timer the timer to be reset
      * @param eventLabelId the label of the timer event to send; 0 if no event should be sent
-     * @return the reset {@code timer} or {@code null} if the timer was deleted
      */
-    public Timer resetOrDeleteTimer(Timer timer, @StringRes int eventLabelId) {
+    public void resetOrDeleteTimer(Timer timer, @StringRes int eventLabelId) {
         enforceMainLooper();
-        return mTimerModel.resetTimer(timer, true /* allowDelete */, eventLabelId);
+        mTimerModel.resetTimer(timer, true /* allowDelete */, eventLabelId);
     }
 
     /**
@@ -578,29 +567,6 @@ public final class DataModel {
     public void setTimerLabel(Timer timer, String label) {
         enforceMainLooper();
         mTimerModel.updateTimer(timer.setLabel(label));
-    }
-
-    /**
-     * @param timer the timer whose {@code length} to change
-     * @param length the new length of the timer in milliseconds
-     */
-    public void setTimerLength(Timer timer, long length) {
-        enforceMainLooper();
-        mTimerModel.updateTimer(timer.setLength(length));
-    }
-
-    /**
-     * @param timer the timer whose {@code remainingTime} to change
-     * @param remainingTime the new remaining time of the timer in milliseconds
-     */
-    public void setRemainingTime(Timer timer, long remainingTime) {
-        enforceMainLooper();
-
-        final Timer updated = timer.setRemainingTime(remainingTime);
-        mTimerModel.updateTimer(updated);
-        if (timer.isRunning() && timer.getRemainingTime() <= 0) {
-            mContext.startService(TimerService.createTimerExpiredIntent(mContext, updated));
-        }
     }
 
     /**
@@ -727,6 +693,14 @@ public final class DataModel {
         return mAlarmModel.getSnoozeLength();
     }
 
+    public int getFlipAction() {
+        return mAlarmModel.getFlipAction();
+    }
+
+    public int getShakeAction() {
+        return mAlarmModel.getShakeAction();
+    }
+
     //
     // Stopwatch
     //
@@ -756,27 +730,24 @@ public final class DataModel {
     }
 
     /**
-     * @return the stopwatch after being started
      */
-    public Stopwatch startStopwatch() {
+    public void startStopwatch() {
         enforceMainLooper();
-        return mStopwatchModel.setStopwatch(getStopwatch().start());
+        mStopwatchModel.setStopwatch(getStopwatch().start());
     }
 
     /**
-     * @return the stopwatch after being paused
      */
-    public Stopwatch pauseStopwatch() {
+    public void pauseStopwatch() {
         enforceMainLooper();
-        return mStopwatchModel.setStopwatch(getStopwatch().pause());
+        mStopwatchModel.setStopwatch(getStopwatch().pause());
     }
 
     /**
-     * @return the stopwatch after being reset
      */
-    public Stopwatch resetStopwatch() {
+    public void resetStopwatch() {
         enforceMainLooper();
-        return mStopwatchModel.setStopwatch(getStopwatch().reset());
+        mStopwatchModel.setStopwatch(getStopwatch().reset());
     }
 
     /**
@@ -784,7 +755,7 @@ public final class DataModel {
      */
     public List<Lap> getLaps() {
         enforceMainLooper();
-        return mStopwatchModel.getLaps();
+        return (mStopwatchModel != null) ? mStopwatchModel.getLaps() : new ArrayList<>();
     }
 
     /**
@@ -887,11 +858,10 @@ public final class DataModel {
     /**
      * @param uri the uri of an audio file to use as a ringtone
      * @param title the title of the audio content at the given {@code uri}
-     * @return the ringtone instance created for the audio file
      */
-    public CustomRingtone addCustomRingtone(Uri uri, String title) {
+    public void addCustomRingtone(Uri uri, String title) {
         enforceMainLooper();
-        return mRingtoneModel.addCustomRingtone(uri, title);
+        mRingtoneModel.addCustomRingtone(uri, title);
     }
 
     /**
@@ -968,6 +938,38 @@ public final class DataModel {
     }
 
     /**
+     * @return the color of clock to display in the clock application
+     */
+    public String getScreensaverClockColor() {
+        enforceMainLooper();
+        return mSettingsModel.getScreensaverClockColor();
+    }
+
+    /**
+     * @return the night mode color of clock to display in the clock application
+     */
+    public String getScreensaverClockNightModeColor() {
+        enforceMainLooper();
+        return mSettingsModel.getScreensaverClockNightModeColor();
+    }
+
+    /**
+     * @return the night mode color of clock to display in the clock application
+     */
+    public Boolean getScreensaverNightModeDndOn() {
+        enforceMainLooper();
+        return mSettingsModel.getScreensaverNightModeDndOn();
+    }
+
+    /**
+     * @return the night mode brightness of clock to display in the clock application
+     */
+    public int getScreensaverNightModeBrightness() {
+        enforceMainLooper();
+        return mSettingsModel.getScreensaverNightModeBrightness();
+    }
+
+    /**
      * @return the style of clock to display in the clock application
      */
     public boolean getDisplayClockSeconds() {
@@ -997,6 +999,22 @@ public final class DataModel {
     public boolean getScreensaverNightModeOn() {
         enforceMainLooper();
         return mSettingsModel.getScreensaverNightModeOn();
+    }
+
+    /**
+     * @return {@code true} if the screen saver should show AM/PM in 12 hour mode
+     */
+    public boolean getScreensaverShowAmPmOn() {
+        enforceMainLooper();
+        return mSettingsModel.getScreensaverShowAmPmOn();
+    }
+
+    /**
+     * @return {@code true} if the screen saver should show the time in bold in 12 hour mode
+     */
+    public boolean getScreensaverBoldTextOn() {
+        enforceMainLooper();
+        return mSettingsModel.getScreensaverBoldTextOn();
     }
 
     /**

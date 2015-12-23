@@ -16,15 +16,16 @@
 
 package com.android.deskclock.timer;
 
+import static com.android.deskclock.FabContainer.FAB_REQUEST_FOCUS;
+import static com.android.deskclock.FabContainer.FAB_SHRINK_AND_EXPAND;
+
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
-import androidx.annotation.IdRes;
-import androidx.core.view.ViewCompat;
 import android.text.BidiFormatter;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -33,17 +34,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
+
 import com.android.deskclock.FabContainer;
 import com.android.deskclock.FormattedTextUtils;
 import com.android.deskclock.R;
-import com.android.deskclock.ThemeUtils;
 import com.android.deskclock.uidata.UiDataModel;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
-import static com.android.deskclock.FabContainer.FAB_REQUEST_FOCUS;
-import static com.android.deskclock.FabContainer.FAB_SHRINK_AND_EXPAND;
 
 public class TimerSetupView extends LinearLayout implements View.OnClickListener,
         View.OnLongClickListener {
@@ -51,11 +50,10 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
     private final int[] mInput = { 0, 0, 0, 0, 0, 0 };
 
     private int mInputPointer = -1;
-    private CharSequence mTimeTemplate;
+    private final CharSequence mTimeTemplate;
 
     private TextView mTimeView;
     private View mDeleteView;
-    private View mDividerView;
     private TextView[] mDigitViews;
 
     /** Updates to the fab are requested via this container. */
@@ -82,40 +80,27 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
                 FormattedTextUtils.formatText(minutesLabel, new RelativeSizeSpan(0.5f)),
                 FormattedTextUtils.formatText(secondsLabel, new RelativeSizeSpan(0.5f)));
 
-        LayoutInflater.from(context).inflate(R.layout.timer_setup_container, this);
+        LayoutInflater.from(context).inflate(R.layout.timer_setup_view, this);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mTimeView = (TextView) findViewById(R.id.timer_setup_time);
+        mTimeView = findViewById(R.id.timer_setup_time);
         mDeleteView = findViewById(R.id.timer_setup_delete);
-        mDividerView = findViewById(R.id.timer_setup_divider);
         mDigitViews = new TextView[] {
-                (TextView) findViewById(R.id.timer_setup_digit_0),
-                (TextView) findViewById(R.id.timer_setup_digit_1),
-                (TextView) findViewById(R.id.timer_setup_digit_2),
-                (TextView) findViewById(R.id.timer_setup_digit_3),
-                (TextView) findViewById(R.id.timer_setup_digit_4),
-                (TextView) findViewById(R.id.timer_setup_digit_5),
-                (TextView) findViewById(R.id.timer_setup_digit_6),
-                (TextView) findViewById(R.id.timer_setup_digit_7),
-                (TextView) findViewById(R.id.timer_setup_digit_8),
-                (TextView) findViewById(R.id.timer_setup_digit_9),
+                findViewById(R.id.timer_setup_digit_0),
+                findViewById(R.id.timer_setup_digit_1),
+                findViewById(R.id.timer_setup_digit_2),
+                findViewById(R.id.timer_setup_digit_3),
+                findViewById(R.id.timer_setup_digit_4),
+                findViewById(R.id.timer_setup_digit_5),
+                findViewById(R.id.timer_setup_digit_6),
+                findViewById(R.id.timer_setup_digit_7),
+                findViewById(R.id.timer_setup_digit_8),
+                findViewById(R.id.timer_setup_digit_9),
         };
-
-        // Tint the divider to match the disabled control color by default and used the activated
-        // control color when there is valid input.
-        final Context dividerContext = mDividerView.getContext();
-        final int colorControlActivated = ThemeUtils.resolveColor(dividerContext,
-                R.attr.colorControlActivated);
-        final int colorControlDisabled = ThemeUtils.resolveColor(dividerContext,
-                R.attr.colorControlNormal, new int[] { ~android.R.attr.state_enabled });
-        ViewCompat.setBackgroundTintList(mDividerView, new ColorStateList(
-                new int[][] { { android.R.attr.state_activated }, {} },
-                new int[] { colorControlActivated, colorControlDisabled }));
-        ViewCompat.setBackgroundTintMode(mDividerView, PorterDuff.Mode.SRC);
 
         // Initialize the digit buttons.
         final UiDataModel uidm = UiDataModel.getUiDataModel();
@@ -124,12 +109,14 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
             digitView.setText(uidm.getFormattedNumber(digit, 1));
             digitView.setOnClickListener(this);
         }
+        TextView doubleZero = findViewById(R.id.timer_setup_digit_00);
+        doubleZero.setText(uidm.getFormattedNumber(0, 2));
+        doubleZero.setOnClickListener(this);
 
         mDeleteView.setOnClickListener(this);
         mDeleteView.setOnLongClickListener(this);
 
         updateTime();
-        updateDeleteAndDivider();
     }
 
     public void setFabContainer(FabContainer fabContainer) {
@@ -160,6 +147,9 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
     public void onClick(View view) {
         if (view == mDeleteView) {
             delete();
+        } else if (view.getId() == R.id.timer_setup_digit_00) {
+            append(0);
+            append(0);
         } else {
             append(getDigitForId(view.getId()));
         }
@@ -176,27 +166,26 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
     }
 
     private int getDigitForId(@IdRes int id) {
-        switch (id) {
-            case R.id.timer_setup_digit_0:
-                return 0;
-            case R.id.timer_setup_digit_1:
-                return 1;
-            case R.id.timer_setup_digit_2:
-                return 2;
-            case R.id.timer_setup_digit_3:
-                return 3;
-            case R.id.timer_setup_digit_4:
-                return 4;
-            case R.id.timer_setup_digit_5:
-                return 5;
-            case R.id.timer_setup_digit_6:
-                return 6;
-            case R.id.timer_setup_digit_7:
-                return 7;
-            case R.id.timer_setup_digit_8:
-                return 8;
-            case R.id.timer_setup_digit_9:
-                return 9;
+        if (id == R.id.timer_setup_digit_0) {
+            return 0;
+        } else if (id == R.id.timer_setup_digit_1) {
+            return 1;
+        } else if (id == R.id.timer_setup_digit_2) {
+            return 2;
+        } else if (id == R.id.timer_setup_digit_3) {
+            return 3;
+        } else if (id == R.id.timer_setup_digit_4) {
+            return 4;
+        } else if (id == R.id.timer_setup_digit_5) {
+            return 5;
+        } else if (id == R.id.timer_setup_digit_6) {
+            return 6;
+        } else if (id == R.id.timer_setup_digit_7) {
+            return 7;
+        } else if (id == R.id.timer_setup_digit_8) {
+            return 8;
+        } else if (id == R.id.timer_setup_digit_9) {
+            return 9;
         }
         throw new IllegalArgumentException("Invalid id: " + id);
     }
@@ -207,22 +196,25 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
         final int hours = mInput[5] * 10 + mInput[4];
 
         final UiDataModel uidm = UiDataModel.getUiDataModel();
-        mTimeView.setText(TextUtils.expandTemplate(mTimeTemplate,
+        SpannableString text = new SpannableString(TextUtils.expandTemplate(mTimeTemplate,
                 uidm.getFormattedNumber(hours, 2),
                 uidm.getFormattedNumber(minutes, 2),
                 uidm.getFormattedNumber(seconds, 2)));
 
         final Resources r = getResources();
+        int endIdx = text.length();
+        int startIdx = seconds > 0 ? 8 : endIdx;
+        startIdx = minutes > 0 ? 4 : startIdx;
+        startIdx = hours > 0 ? 0 : startIdx;
+        if (startIdx != endIdx) {
+            final int highlightColor = r.getColor(R.color.accent_color, getContext().getTheme());
+            text.setSpan(new ForegroundColorSpan(highlightColor), startIdx, endIdx, 0);
+        }
+        mTimeView.setText(text);
         mTimeView.setContentDescription(r.getString(R.string.timer_setup_description,
                 r.getQuantityString(R.plurals.hours, hours, hours),
                 r.getQuantityString(R.plurals.minutes, minutes, minutes),
                 r.getQuantityString(R.plurals.seconds, seconds, seconds)));
-    }
-
-    private void updateDeleteAndDivider() {
-        final boolean enabled = hasValidInput();
-        mDeleteView.setEnabled(enabled);
-        mDividerView.setActivated(enabled);
     }
 
     private void updateFab() {
@@ -258,7 +250,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
         // Update the fab, delete, and divider when we have valid input.
         if (mInputPointer == 0) {
             updateFab();
-            updateDeleteAndDivider();
         }
     }
 
@@ -285,7 +276,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
         // Update the fab, delete, and divider when we no longer have valid input.
         if (mInputPointer == -1) {
             updateFab();
-            updateDeleteAndDivider();
         }
     }
 
@@ -294,7 +284,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
             Arrays.fill(mInput, 0);
             mInputPointer = -1;
             updateTime();
-            updateDeleteAndDivider();
         }
     }
 
@@ -331,7 +320,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
                 }
             }
             updateTime();
-            updateDeleteAndDivider();
         }
     }
 }

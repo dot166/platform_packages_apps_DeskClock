@@ -17,13 +17,14 @@
 package com.android.deskclock.settings;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.preference.DropDownPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.preference.DropDownPreference;
 
 import com.android.deskclock.R;
 import com.android.deskclock.Utils;
@@ -53,6 +54,7 @@ public class SimpleMenuPreference extends DropDownPreference {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    @NonNull
     @Override
     protected ArrayAdapter createAdapter() {
         mAdapter = new SimpleMenuAdapter(getContext(), R.layout.simple_menu_dropdown_item);
@@ -133,9 +135,9 @@ public class SimpleMenuPreference extends DropDownPreference {
         public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
             final View view = super.getDropDownView(position, convertView, parent);
             if (position == 0) {
-                view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white_08p));
-            } else {
-                view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                view.setBackgroundResource(R.drawable.popup_background_selected);
+                TextView tv = (TextView) view;
+                tv.setTextColor(getContext().getColor(R.color.black));
             }
             return view;
         }

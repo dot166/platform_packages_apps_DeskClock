@@ -17,15 +17,16 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:gravity="center"
+    android:minHeight="@dimen/timer_setup_top_size"
     android:layoutDirection="ltr"
     android:orientation="horizontal">
 
-    <TextView
+    <com.android.deskclock.widget.AutoSizingTextView
         android:id="@+id/timer_setup_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,16 +37,6 @@
         android:singleLine="true"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/timer_setup_digit_font_size"
-        tools:targetApi="21" />
-
-    <ImageButton
-        android:id="@+id/timer_setup_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/timer_setup_delete_margin"
-        android:contentDescription="@string/timer_delete"
-        android:padding="12dp"
-        android:scaleType="center"
-        app:srcCompat="@drawable/ic_backspace" />
+        tools:text="12h34m56s"/>
 
 </LinearLayout>
