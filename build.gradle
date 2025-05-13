@@ -1,0 +1,63 @@
+plugins {
+    id("com.android.application") version '8.10.0' apply true
+}
+
+android {
+    namespace 'com.android.deskclock'
+    compileSdk 35
+
+    defaultConfig {
+        minSdkVersion 27
+        targetSdkVersion 35
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['res']
+            java.srcDirs = ['src']
+            assets.srcDirs = ['assets']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+
+        test {
+            java.srcDirs = ['tests']
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    lint {
+        lintConfig = file("lint.xml")
+    }
+}
+
+dependencies {
+    implementation "androidx.annotation:annotation:1.9.1"
+    implementation "androidx.collection:collection:1.5.0"
+    implementation "androidx.arch.core:core-common:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-common:2.9.0"
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation "androidx.lifecycle:lifecycle-runtime:+"
+    implementation "androidx.percentlayout:percentlayout:1.0.0"
+    implementation "androidx.transition:transition:1.6.0"
+    implementation "androidx.core:core:1.16.0"
+    implementation "androidx.legacy:legacy-support-core-ui:1.0.0"
+    implementation "androidx.media:media:1.7.0"
+    implementation "androidx.legacy:legacy-support-v13:1.0.0"
+    implementation "androidx.preference:preference:1.2.1"
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.gridlayout:gridlayout:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+//    options.deprecation = true
+}
