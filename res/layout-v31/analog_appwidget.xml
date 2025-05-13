@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnalogClock xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/Theme.DeskClock.AnalogWidget"
+    android:id="@+id/analog_appwidget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:dial="@drawable/clock_analog_dial"
+    android:hand_hour="@drawable/clock_analog_hour"
+    android:hand_minute="@drawable/clock_analog_minute"
+    android:importantForAccessibility="no"
+    android:hand_second="@drawable/clock_analog_second"/>
