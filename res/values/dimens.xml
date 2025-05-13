@@ -129,4 +129,5 @@
     <dimen name="widget_background_corner_radius">80dp</dimen>
     <dimen name="widget_configuration_background_corner_radius">12dp</dimen>
     <dimen name="widget_padding">16dp</dimen>
+    <dimen name="analog_widget_dial_size">380dp</dimen>
 </resources>
