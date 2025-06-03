@@ -4,11 +4,11 @@ plugins {
 
 android {
     namespace 'com.android.deskclock'
-    compileSdk 35
+    compileSdk 29
 
     defaultConfig {
-        minSdkVersion 27
-        targetSdkVersion 35
+        minSdkVersion 29
+        targetSdkVersion 29
     }
 
     sourceSets {
