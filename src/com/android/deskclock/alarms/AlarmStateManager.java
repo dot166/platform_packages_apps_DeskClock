@@ -50,7 +50,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static android.content.Context.ALARM_SERVICE;
 import static android.provider.Settings.System.NEXT_ALARM_FORMATTED;
 
@@ -234,7 +233,7 @@ public final class AlarmStateManager extends BroadcastReceiver {
 
         final int flags = nextAlarm == null ? PendingIntent.FLAG_NO_CREATE : 0;
         final PendingIntent operation = PendingIntent.getBroadcast(context, 0 /* requestCode */,
-                AlarmStateManager.createIndicatorIntent(context), flags | FLAG_IMMUTABLE);
+                AlarmStateManager.createIndicatorIntent(context), flags);
 
         if (nextAlarm != null) {
             LogUtils.i("Setting upcoming AlarmClockInfo for alarm: " + nextAlarm.mId);
