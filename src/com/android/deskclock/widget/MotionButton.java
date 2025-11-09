@@ -28,6 +28,7 @@ import android.view.ViewOutlineProvider;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.android.deskclock.R;
+import com.google.android.material.button.MaterialButton;
 
 /**
  * A MotionButton is an AppCompatButton that can round its edges. <b>Added in 2.0</b>
@@ -51,7 +52,7 @@ import com.android.deskclock.R;
  *
  * </table>
  */
-public class MotionButton extends AppCompatButton {
+public class MotionButton extends MaterialButton {
     private float mRoundPercent = 0; // rounds the corners as a percent
     private float mRound = Float.NaN; // rounds the corners in dp if NaN RoundPercent is in effect
     private Path mPath;

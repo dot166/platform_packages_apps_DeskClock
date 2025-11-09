@@ -88,8 +88,8 @@ public final class Screensaver extends DreamService {
 
         setClockStyle();
         Utils.setClockIconTypeface(mContentView);
-        Utils.setScreensaverTimeFormat(mDigitalClock, false);
-        mAnalogClock.enableSeconds(false);
+        Utils.setScreensaverTimeFormat(mDigitalClock, DataModel.getDataModel().getDisplayClockSeconds());
+        mAnalogClock.enableSeconds(DataModel.getDataModel().getDisplayClockSeconds());
 
         mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE

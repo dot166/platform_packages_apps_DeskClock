@@ -23,7 +23,6 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.IntegerRes;
 import androidx.annotation.StringRes;
 
 import com.android.deskclock.AlarmClockFragment;
@@ -50,7 +49,7 @@ public final class UiDataModel {
         private final @IdRes int mPageResId;
         private final @StringRes int mLabelResId;
 
-        Tab(Class fragmentClass, @IntegerRes int pageResId, @StringRes int labelResId) {
+        Tab(Class fragmentClass, @IdRes int pageResId, @StringRes int labelResId) {
             mFragmentClassName = fragmentClass.getName();
             mPageResId = pageResId;
             mLabelResId = labelResId;

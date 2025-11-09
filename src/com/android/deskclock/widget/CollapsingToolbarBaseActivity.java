@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.deskclock.BaseActivity;
 import com.android.deskclock.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -38,7 +39,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
  * A base Activity that has a collapsing toolbar layout is used for the activities intending to
  * enable the collapsing toolbar function.
  */
-public class CollapsingToolbarBaseActivity extends FragmentActivity {
+public class CollapsingToolbarBaseActivity extends BaseActivity {
 
     private static final float TOOLBAR_LINE_SPACING_MULTIPLIER = 1.1f;
 
@@ -67,11 +68,6 @@ public class CollapsingToolbarBaseActivity extends FragmentActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
-            // We need this to have an always light back arrow
-            BlendModeColorFilter filter = new BlendModeColorFilter(
-                    getColor(R.color.system_neutral1_50),
-                    BlendMode.SRC_ATOP);
-            toolbar.getNavigationIcon().setColorFilter(filter);
         }
     }
 

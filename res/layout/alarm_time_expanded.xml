@@ -43,6 +43,7 @@
         android:textAppearance="@style/body"
         app:drawableStartCompat="@drawable/ic_label"
         app:drawableTint="?colorControlNormal"
+        android:textColorHint="?android:textColorTertiary"
         app:layout_constraintEnd_toStartOf="@id/arrow"
         app:layout_constraintStart_toEndOf="@id/start_guide_thin"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +72,6 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/onoff"
-        android:theme="@style/Theme.Material3.DynamicColors.DayNight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6.0dip"
@@ -168,10 +168,9 @@
 
     <Button
         android:id="@+id/preemptive_dismiss_button"
-        style="?borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/alarm_horizontal_padding"
+        app:iconPadding="@dimen/alarm_horizontal_padding"
         android:focusable="true"
         android:gravity="center_vertical"
         android:minHeight="@dimen/touch_target_min_size"
@@ -179,7 +178,6 @@
         android:paddingEnd="0dp"
         android:textAllCaps="false"
         android:textAppearance="@style/body"
-        android:textColor="@color/accent_color"
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/start_guide_thin"
         app:layout_constraintTop_toBottomOf="@id/vibrate_onoff"
@@ -188,13 +186,11 @@
 
     <Button
         android:id="@+id/delete"
-        style="?borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/touch_target_min_size"
         android:layout_marginBottom="@dimen/alarm_clock_expanded_vertical_margin"
-        android:background="?selectableItemBackground"
-        android:drawableStart="@drawable/ic_delete_small"
-        android:drawablePadding="@dimen/alarm_horizontal_padding"
+        app:icon="@drawable/ic_delete_small"
+        app:iconPadding="@dimen/alarm_horizontal_padding"
         android:focusable="true"
         android:gravity="start|center"
         android:paddingStart="@dimen/icon_margin"

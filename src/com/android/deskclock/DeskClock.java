@@ -121,9 +121,6 @@ public class DeskClock extends BaseActivity
     /** {@code true} when a settings change necessitates recreating this activity. */
     private boolean mRecreateActivity;
 
-    private static final String PERMISSION_POWER_OFF_ALARM =
-            "org.codeaurora.permission.POWER_OFF_ALARM";
-
     private static final int CODE_FOR_ALARM_PERMISSION = 1;
 
     private static final int INVALID_RES = -1;
@@ -423,9 +420,6 @@ public class DeskClock extends BaseActivity
 
     private void checkPermissions() {
         final List<String> missingPermissions = new ArrayList<>();
-        if (!hasPowerOffPermission()) {
-            missingPermissions.add(PERMISSION_POWER_OFF_ALARM);
-        }
         if (!hasNotificationPermission()) {
             if (Build.VERSION.SDK_INT >= 33) {
                 missingPermissions.add(Manifest.permission.POST_NOTIFICATIONS);
@@ -440,10 +434,6 @@ public class DeskClock extends BaseActivity
 
     private boolean hasPermission(String permission) {
         return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private boolean hasPowerOffPermission() {
-        return hasPermission(PERMISSION_POWER_OFF_ALARM);
     }
 
     private boolean hasNotificationPermission() {
@@ -463,24 +453,9 @@ public class DeskClock extends BaseActivity
         if (requestCode == CODE_FOR_ALARM_PERMISSION) {
             if (hasEssentialPermissions()) {
                 LogUtils.i("Essential permissions granted!");
-                if (hasPermission(PERMISSION_POWER_OFF_ALARM)) {
-                    LogUtils.i("Power off alarm permission is granted.");
-                } else {
-                    showRationale(PERMISSION_POWER_OFF_ALARM,
-                            R.string.dialog_permissions_power_off_alarm, INVALID_RES, false);
-                }
             } else {
                 essentialPermissionsDenied();
             }
-        }
-    }
-
-    private void showRationale(String permission, @StringRes int messageRes,
-                               @StringRes int errorRes, boolean finishWhenDenied) {
-        if (shouldShowRequestPermissionRationale(permission)) {
-            showPermissionRationale(messageRes, this::checkPermissions, finishWhenDenied);
-        } else if (errorRes != INVALID_RES){
-            showPermissionError(errorRes, finishWhenDenied);
         }
     }
 

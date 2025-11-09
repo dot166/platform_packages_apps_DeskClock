@@ -21,7 +21,6 @@
     <dimen name="time_margin_top">48dip</dimen>
     <dimen name="screensaver_margin">20dip</dimen>
     <dimen name="alarm_label_padding">64dip</dimen>
-    <dimen name="bottom_text_size">18sp</dimen>
     <dimen name="bottom_text_spacing_digital">-18dp</dimen>
     <dimen name="bottom_text_spacing_analog">18dp</dimen>
     <dimen name="bottom_text_spacing_analog_small">10dp</dimen>
@@ -34,7 +33,6 @@
     <dimen name="no_alarm_font_size">20sp</dimen>
 
     <dimen name="no_alarms_size">180dp</dimen>
-    <dimen name="fab_alarm_size">80dp</dimen>
 
     <dimen name="body_font_padding">8dp</dimen>
 

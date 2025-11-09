@@ -26,5 +26,4 @@
     android:previewLayout="@layout/digital_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
-    android:widgetCategory="keyguard|home_screen"
-    android:configure="com.android.alarmclock.DigitalAppWidgetConfigurationActivity" />
+    android:widgetCategory="keyguard|home_screen" />

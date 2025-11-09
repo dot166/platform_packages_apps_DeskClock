@@ -17,7 +17,6 @@
 
 package com.android.deskclock;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -27,7 +26,9 @@ import com.android.deskclock.data.DataModel;
 import com.android.deskclock.events.LogEventTracker;
 import com.android.deskclock.uidata.UiDataModel;
 
-public class DeskClockApplication extends Application {
+import io.github.dot166.jlib.app.jLIBCoreApp;
+
+public class DeskClockApplication extends jLIBCoreApp {
 
     @Override
     public void onCreate() {

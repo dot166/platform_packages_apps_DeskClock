@@ -34,14 +34,10 @@
     <string name="dialog_permissions_ask">Tekrar sor</string>
     <string name="dialog_permissions_dismiss">Reddet</string>
     <string name="dialog_permissions_settings">Ayarlar</string>
-    <string name="dialog_permissions_power_off_alarm">Bu izin olmadan cihazınız alarm çalmak için kendiliğinden açılamayacak</string>
     <string name="dialog_permissions_no_permission">Gerekli izinler reddedildi, Ayarlar uygulamasından etkinleştirin</string>
     <string name="dialog_permissions_post_notifications">Bu uygulama bildirimlere dayanmaktadır. Bildirimler olmadan çalışamaz!</string>
     <string name="selected">Seçildi</string>
     <string name="more_options">Daha fazla seçenek</string>
-    <string name="widget_choice_title">Stilinizi seçin</string>
-    <string name="widget_name_transparent">Desteksiz</string>
-    <string name="widget_name_solid">Destekli</string>
     <string name="clock_brightness_percentage">%%%s</string>
     <string name="night_mode_enabled_title">Etkin</string>
     <string name="night_mode_dnd_title">Rahatsız Etme Modunu takip et</string>

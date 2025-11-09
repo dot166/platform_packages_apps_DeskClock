@@ -48,6 +48,7 @@ import com.android.deskclock.events.Events;
 import com.android.deskclock.provider.Alarm;
 import com.android.deskclock.provider.AlarmInstance;
 import com.android.deskclock.uidata.UiDataModel;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.List;
 
@@ -116,7 +117,7 @@ public final class ExpandedAlarmViewHolder extends AlarmItemViewHolder {
         // Edit label handler
         editLabel.setOnClickListener(v ->
                 getAlarmTimeClickHandler().onEditLabelClicked(getItemHolder().item));
-        // Vibrator checkbox handler
+        // Vibrator switch handler
         vibrate.setOnClickListener(v ->
                 getAlarmTimeClickHandler().setAlarmVibrationEnabled(getItemHolder().item,
                 ((CheckBox) v).isChecked()));

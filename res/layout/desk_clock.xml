@@ -82,8 +82,7 @@
                 app:layout_constraintEnd_toStartOf="@id/fab"
                 app:layout_constraintHorizontal_bias="0.6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:backgroundTint="@color/accent_color2" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
@@ -108,22 +107,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toEndOf="@id/fab"
-                app:layout_constraintTop_toTopOf="parent"
-                android:backgroundTint="@color/accent_color2"/>
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/secondary_color"
+        android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="16dp"
         app:menu="@menu/bottom_navigation_menu"
-        app:itemIconTint="@color/tab_tint_color"
-        app:itemTextColor="@color/tab_tint_color"
-        app:itemTextAppearanceActive="@style/navText"
-        app:itemTextAppearanceInactive="@style/navText"
         app:labelVisibilityMode="labeled" />
 </LinearLayout>

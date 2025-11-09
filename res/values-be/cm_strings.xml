@@ -33,6 +33,5 @@
     <string name="dialog_permissions_title">Дазволы</string>
     <string name="dialog_permissions_dismiss">Адхіліць</string>
     <string name="dialog_permissions_settings">Налады</string>
-    <string name="dialog_permissions_power_off_alarm">Без гэтага дазволу ваша прылада не зможа ўключыцца, каб спрацаваў гадзіннік</string>
     <string name="screensaver_change_settings">Налады</string>
 </resources>

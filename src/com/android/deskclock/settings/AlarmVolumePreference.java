@@ -19,6 +19,7 @@ package com.android.deskclock.settings;
 import static android.content.Context.AUDIO_SERVICE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.media.AudioManager.STREAM_ALARM;
+import static android.view.View.GONE;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -28,21 +29,22 @@ import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
 import com.android.deskclock.R;
 import com.android.deskclock.RingtonePreviewKlaxon;
 import com.android.deskclock.data.DataModel;
+import com.google.android.material.slider.Slider;
 
-public class AlarmVolumePreference extends Preference {
+import io.github.dot166.jlib.preference.SliderPreference;
+
+public class AlarmVolumePreference extends SliderPreference {
 
     private static final long ALARM_PREVIEW_DURATION_MS = 2000;
 
-    private SeekBar mSeekbar;
+    private Slider mSeekbar;
     private boolean mPreviewPlaying;
 
     public AlarmVolumePreference(Context context, AttributeSet attrs) {
@@ -52,6 +54,14 @@ public class AlarmVolumePreference extends Preference {
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
+        getMValueTextView().setVisibility(GONE);
+        setMValueTextView(null); // disable value view, by force if necessary
+        getMResetImageButton().setVisibility(GONE);
+        setMResetImageButton(null); // disable reset button, by force if necessary
+        getMPlusImageButton().setVisibility(GONE);
+        setMPlusImageButton(null); // disable plus button view, by force if necessary
+        getMMinusImageButton().setVisibility(GONE);
+        setMMinusImageButton(null); // disable minus button button, by force if necessary
 
         final Context context = getContext();
         final AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
@@ -62,9 +72,9 @@ public class AlarmVolumePreference extends Preference {
         // Minimum volume for alarm is not 0, calculate it.
         int maxVolume = audioManager.getStreamMaxVolume(STREAM_ALARM) -
                 audioManager.getStreamMinVolume(STREAM_ALARM);
-        mSeekbar = (SeekBar) holder.findViewById(R.id.seekbar);
-        mSeekbar.setMax(maxVolume);
-        mSeekbar.setProgress(audioManager.getStreamVolume(STREAM_ALARM) -
+        mSeekbar = getMSlider();
+        mSeekbar.setValueTo(maxVolume);
+        mSeekbar.setValue(audioManager.getStreamVolume(STREAM_ALARM) -
                 audioManager.getStreamMinVolume(STREAM_ALARM));
         ((ImageView) holder.findViewById(android.R.id.icon))
                 .setImageResource(R.drawable.ic_alarm_small);
@@ -75,7 +85,7 @@ public class AlarmVolumePreference extends Preference {
             @Override
             public void onChange(boolean selfChange) {
                 // Volume was changed elsewhere, update our slider.
-                mSeekbar.setProgress(audioManager.getStreamVolume(STREAM_ALARM) -
+                mSeekbar.setValue(audioManager.getStreamVolume(STREAM_ALARM) -
                         audioManager.getStreamMinVolume(STREAM_ALARM));
             }
         };
@@ -93,22 +103,23 @@ public class AlarmVolumePreference extends Preference {
             }
         });
 
-        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekbar.addOnChangeListener((seekBar, progress, fromUser) -> {
+            if (fromUser) {
+                float newVolume = progress + audioManager.getStreamMinVolume(STREAM_ALARM);
+                audioManager.setStreamVolume(STREAM_ALARM, (int) newVolume, 0);
+            }
+            onSeekbarChanged();
+        });
+
+
+        mSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    int newVolume = progress + audioManager.getStreamMinVolume(STREAM_ALARM);
-                    audioManager.setStreamVolume(STREAM_ALARM, newVolume, 0);
-                }
-                onSeekbarChanged();
+            public void onStartTrackingTouch(Slider seekBar) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(Slider seekBar) {
                 if (!mPreviewPlaying) {
                     // If we are not currently playing, start.
                     RingtonePreviewKlaxon.start(

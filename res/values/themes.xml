@@ -17,23 +17,11 @@
 
 <resources>
 
-    <style name="Theme.DeskClock" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.DeskClock" parent="j.Theme">
         <item name="android:colorBackgroundFloating">?attr/colorBackgroundFloating</item>
-        <item name="android:navigationBarColor">@color/secondary_color</item>
-        <item name="popupTheme">@style/ThemeOverlay.Popup</item>
+        <item name="android:navigationBarColor">?backgroundColor</item>
 
-        <item name="android:timePickerStyle">@style/Widget.TimePicker</item>
-        <item name="android:windowBackground">@color/default_background</item>
         <item name="android:windowContentOverlay">@null</item>
-
-        <item name="colorAccent">@color/accent_color</item>
-        <item name="android:colorSecondary">@color/secondary_color</item>
-        <item name="android:colorForeground">@android:color/system_neutral1_50</item>
-        <item name="colorSurface">@android:color/system_neutral1_500</item>
-        <item name="colorBackgroundFloating">@android:color/system_neutral1_500</item>
-        <item name="colorControlActivated">@android:color/white</item>
-        <item name="colorControlNormal">?android:attr/textColorPrimary</item>
-        <item name="colorPrimaryDark">#00000000</item>
         <item name="imageButtonStyle">@style/Widget.ImageButton</item>
 
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
@@ -42,9 +30,8 @@
     </style>
 
     <style name="Theme.DeskClock.Settings">
-        <item name="colorPrimary">@color/default_background</item>
         <item name="elevationOverlayColor">?attr/colorPrimary</item>
-        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="colorControlActivated">?attr/colorSecondary</item>
         <item name="android:dropDownSpinnerStyle">@style/DeskClock.Settings.DropDownSpinnerStyle</item>
     </style>
 
@@ -53,15 +40,5 @@
         <item name="actionBarStyle">@style/Widget.ActionBar.NoTitle</item>
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
-    </style>
-
-    <style name="ThemeOverlay.Control.Accent" parent="ThemeOverlay.AppCompat">
-        <!-- Attributes from androidx.appcompat.appcompat -->
-        <item name="colorControlActivated">?attr/colorAccent</item>
-    </style>
-
-    <style name="ThemeOverlay.Popup" parent="Widget.AppCompat.PopupMenu">
-        <item name="android:background">@drawable/popup_background</item>
-        <item name="android:colorBackground">@color/transparent</item>
     </style>
 </resources>

@@ -34,14 +34,10 @@
     <string name="dialog_permissions_ask">Təkrar soruş</string>
     <string name="dialog_permissions_dismiss">Rədd et</string>
     <string name="dialog_permissions_settings">Ayarlar</string>
-    <string name="dialog_permissions_power_off_alarm">Bu icazə olmadan cihazınız zəngli saatı çalmaq üçün öz-özünə açılmayacaq</string>
     <string name="dialog_permissions_no_permission">Tələb edilən icazələr rədd edildi, Ayarlardan fəallaşdırın.</string>
     <string name="dialog_permissions_post_notifications">Bu tətbiq bildirişlərə əsaslanır. Bildirişlər olmadan işləyə bilməz!</string>
     <string name="selected">Seçildi</string>
     <string name="more_options">Daha çox seçim</string>
-    <string name="widget_choice_title">Stilinizi seçin</string>
-    <string name="widget_name_transparent">Dəstəksiz</string>
-    <string name="widget_name_solid">Dəstəkli</string>
     <string name="clock_brightness_percentage">%s%%</string>
     <string name="night_mode_enabled_title">Fəaldır</string>
     <string name="night_mode_dnd_title">DND statusunu izlə</string>

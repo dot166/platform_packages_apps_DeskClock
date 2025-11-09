@@ -114,13 +114,7 @@ public class DigitalAppWidgetCityViewsFactory implements RemoteViewsFactory {
         final City right = rightIndex < mCities.size() ? mCities.get(rightIndex) : null;
 
         String packageName = mContext.getPackageName();
-        int[] layoutIds = WidgetUtils.getWidgetLayouts(mContext, mWidgetId);
-        final RemoteViews rv = new RemoteViews(packageName, layoutIds[0]);
-        rv.setLightBackgroundLayoutId(layoutIds[1]);
-
-        rv.removeAllViews(R.id.themed_root);
-        rv.addView(R.id.themed_root, new RemoteViews(packageName,
-                R.layout.world_clock_remote_list_item));
+        final RemoteViews rv = new RemoteViews(packageName, R.layout.world_clock_remote_list_item);
 
         // Show the left clock if one exists.
         if (left != null) {

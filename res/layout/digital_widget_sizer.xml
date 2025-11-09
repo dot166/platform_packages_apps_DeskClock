@@ -20,12 +20,11 @@
     android:id="@+id/widget_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:theme="@style/Theme.DeskClock.DigitalWidgetTransparentDarkBg">
+    android:orientation="vertical">
 
     <TextClock
         android:id="@+id/clock"
-        android:textAppearance="?appWidgetTextAppearancePrimary"
+        android:textAppearance="@style/TextAppearance.DigitalAppWidget.TextClockPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
@@ -45,7 +44,7 @@
 
         <TextClock
             android:id="@+id/date"
-            android:textAppearance="?appWidgetTextAppearancePrimaryLabel"
+            android:textAppearance="@style/TextAppearance.DigitalAppWidget.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -57,7 +56,7 @@
         <!-- This view is drawn to a Bitmap and sent to the widget as an icon. -->
         <TextView
             android:id="@+id/nextAlarmIcon"
-            android:textAppearance="?appWidgetTextAppearancePrimaryLabel"
+            android:textAppearance="@style/TextAppearance.DigitalAppWidget.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -65,7 +64,7 @@
             android:ellipsize="none"
             android:singleLine="true"
             android:text="@string/clock_emoji"
-            android:textColor="?appWidgetLabelTint"
+            android:textColor="@color/widget_text_color_on_solid"
             tools:text=""
             tools:drawableStart="@drawable/ic_alarm"
             tools:paddingStart="8dp"
@@ -73,7 +72,7 @@
 
         <TextView
             android:id="@+id/nextAlarm"
-            android:textAppearance="?appWidgetTextAppearancePrimaryLabel"
+            android:textAppearance="@style/TextAppearance.DigitalAppWidget.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

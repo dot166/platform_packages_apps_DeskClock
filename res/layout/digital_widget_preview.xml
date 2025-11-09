@@ -13,15 +13,13 @@
     android:gravity="top|center_horizontal"
     android:orientation="vertical"
     android:background="@drawable/widget_background"
-    android:backgroundTint="?appWidgetBackgroundTint"
     android:padding="@dimen/widget_padding"
     android:paddingTop="@dimen/widget_padding"
-    android:paddingBottom="@dimen/widget_padding"
-    android:theme="@style/Theme.DeskClock.DigitalWidgetTransparentLightBg">
+    android:paddingBottom="@dimen/widget_padding">
 
     <TextClock
         android:id="@+id/clock"
-        android:textAppearance="?appWidgetTextAppearancePrimary"
+        android:textAppearance="@style/TextAppearance.DigitalAppWidget.TextClockPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
@@ -49,7 +47,7 @@
             android:ellipsize="none"
             android:includeFontPadding="false"
             android:singleLine="true"
-            android:textAppearance="?appWidgetTextAppearancePrimaryLabel"
+            android:textAppearance="@style/TextAppearance.DigitalAppWidget.Label"
             android:format12Hour="@string/abbrev_wday_month_day_no_year_preview"
             android:format24Hour="@string/abbrev_wday_month_day_no_year_preview"
             tools:text="01. Jan, 2023"

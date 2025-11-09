@@ -16,50 +16,32 @@
 
 package com.android.deskclock.alarms;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.content.Context;
-import android.os.Bundle;
+import static com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK;
+import static com.google.android.material.timepicker.TimeFormat.CLOCK_12H;
+import static com.google.android.material.timepicker.TimeFormat.CLOCK_24H;
+
 import android.text.format.DateFormat;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.timepicker.MaterialTimePicker;
 
 import java.util.Calendar;
 
 /**
  * DialogFragment used to show TimePicker.
  */
-public class TimePickerDialogFragment extends DialogFragment {
+public class TimePickerDialogFragment {
 
     /**
      * Tag for timer picker fragment in FragmentManager.
      */
     private static final String TAG = "TimePickerDialogFragment";
 
-    private static final String ARG_HOUR = TAG + "_hour";
-    private static final String ARG_MINUTE = TAG + "_minute";
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final OnTimeSetListener listener = ((OnTimeSetListener) getParentFragment());
-
-        final Calendar now = Calendar.getInstance();
-        final Bundle args = getArguments() == null ? Bundle.EMPTY : getArguments();
-        final int hour = args.getInt(ARG_HOUR, now.get(Calendar.HOUR_OF_DAY));
-        final int minute = args.getInt(ARG_MINUTE, now.get(Calendar.MINUTE));
-
-        final Context context = getActivity();
-        return new TimePickerDialog(context, (view, hourOfDay, minute1) ->
-                listener.onTimeSet(hourOfDay, minute1),
-                hour, minute, DateFormat.is24HourFormat(context));
-    }
-
     public static void show(Fragment fragment) {
-        show(fragment, -1 /* hour */, -1 /* minute */);
+        final Calendar now = Calendar.getInstance();
+        TimePickerDialogFragment.show(fragment, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
     }
 
     public static void show(Fragment parentFragment, int hourOfDay, int minute) {
@@ -75,18 +57,15 @@ public class TimePickerDialogFragment extends DialogFragment {
         // Make sure the dialog isn't already added.
         removeTimeEditDialog(manager);
 
-        final TimePickerDialogFragment fragment = new TimePickerDialogFragment();
+        MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+                .setHour(hourOfDay)
+                .setMinute(minute)
+                .setTimeFormat(DateFormat.is24HourFormat(parentFragment.getContext()) ? CLOCK_12H : CLOCK_24H)
+                .setInputMode(INPUT_MODE_CLOCK)
+                .build();
 
-        final Bundle args = new Bundle();
-        if (hourOfDay >= 0 && hourOfDay < 24) {
-            args.putInt(ARG_HOUR, hourOfDay);
-        }
-        if (minute >= 0 && minute < 60) {
-            args.putInt(ARG_MINUTE, minute);
-        }
-
-        fragment.setArguments(args);
-        fragment.show(manager, TAG);
+        timePicker.addOnPositiveButtonClickListener(v -> ((OnTimeSetListener) parentFragment).onTimeSet(timePicker.getHour(), timePicker.getMinute()));
+        timePicker.show(manager, TAG);
     }
 
     public static void removeTimeEditDialog(FragmentManager manager) {

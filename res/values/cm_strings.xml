@@ -49,7 +49,6 @@
     <!-- Permission dialog: Go to settings -->
     <string name="dialog_permissions_settings">Settings</string>
     <!-- Permission dialog: ask for power off alarm permission -->
-    <string name="dialog_permissions_power_off_alarm">Without this permission your device won\'t be able to power on itself to fire an alarm</string>
     <!-- No permissions granted error -->
     <string name="dialog_permissions_no_permission">Required permissions were denied, enable them from Settings app</string>
     <!-- Permission dialog: ask for post notification permission -->
@@ -61,11 +60,8 @@
     <string name="more_options">More options</string>
 
     <!-- Title of the widget layout choice activity -->
-    <string name="widget_choice_title">Choose your style</string>
     <!-- Name of the transparent widget layout -->
-    <string name="widget_name_transparent">Unbacked</string>
     <!-- Name of the solid widget layout -->
-    <string name="widget_name_solid">Backed</string>
 
     <!-- Clock brightness percentage for screensaver settings page, aka 0% to 100%.
          Make sure to use a double percent sign as this string will be used in String.format()
