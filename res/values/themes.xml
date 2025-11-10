@@ -19,7 +19,7 @@
 
     <style name="Theme.DeskClock" parent="j.Theme">
         <item name="android:colorBackgroundFloating">?attr/colorBackgroundFloating</item>
-        <item name="android:navigationBarColor">?backgroundColor</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
 
         <item name="android:windowContentOverlay">@null</item>
         <item name="imageButtonStyle">@style/Widget.ImageButton</item>
