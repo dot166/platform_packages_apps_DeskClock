@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application") version "8.13.0" apply true
+    id("com.android.application") version "8.13.1" apply true
 }
 
 android {
@@ -7,7 +7,7 @@ android {
     compileSdkVersion 36
 
     defaultConfig {
-        minSdkVersion 27
+        minSdkVersion 31
         targetSdkVersion 34
     }
 
@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation 'io.github.dot166:j-Lib:104.0.6'
+    implementation 'io.github.dot166:j-Lib:104.0.7'
 }
 
 tasks.withType(JavaCompile) {
