@@ -129,7 +129,6 @@
     </style>
 
     <style name="SnackBarStyle" parent="@style/Widget.MaterialComponents.Snackbar">
-        <item name="android:background">@drawable/popup_background</item>
         <item name="android:layout_margin">@null</item>
         <item name="android:layout_marginLeft">8.0dip</item>
         <item name="android:layout_marginTop">8.0dip</item>
