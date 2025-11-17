@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation 'io.github.dot166:j-Lib:104.0.7'
+    implementation 'io.github.dot166:j-Lib:104.1.1'
 }
 
 tasks.withType(JavaCompile) {
