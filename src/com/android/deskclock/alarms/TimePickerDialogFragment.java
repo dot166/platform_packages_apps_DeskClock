@@ -60,7 +60,7 @@ public class TimePickerDialogFragment {
         MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
                 .setHour(hourOfDay)
                 .setMinute(minute)
-                .setTimeFormat(DateFormat.is24HourFormat(parentFragment.getContext()) ? CLOCK_12H : CLOCK_24H)
+                .setTimeFormat(DateFormat.is24HourFormat(parentFragment.getContext()) ? CLOCK_24H : CLOCK_12H)
                 .setInputMode(INPUT_MODE_CLOCK)
                 .build();
 
