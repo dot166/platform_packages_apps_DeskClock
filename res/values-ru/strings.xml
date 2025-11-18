@@ -385,6 +385,9 @@
     <string name="timer_service_desc" msgid="2256002649882602433">"Обрабатывает действия из уведомлений таймера."</string>
     <string name="stopwatch_service_desc" msgid="9220132827343760767">"Обрабатывает действия из уведомлений секундомера."</string>
     <string name="swn_paused" msgid="6364358842808263589">"Приостановлено"</string>
+    <string name="description_direction_right" msgid="5709209043267548985">"Пролистните вправо, чтобы отключить сигнал"</string>
+    <string name="description_direction_left" msgid="7448141043674998679">"Пролистните влево, чтобы отложить сигнал"</string>
+    <string name="description_direction_both" msgid="1841309486023845685">"Проведите влево, чтобы отложить сигнал, или вправо, чтобы отменить его"</string>
     <string name="timer_settings" msgid="7955522143086154795">"Таймеры"</string>
     <string name="timer_vibrate_title" msgid="7788920024785587518">"Вибросигнал таймера"</string>
     <string name="timer_paused" msgid="5941160896040771462">"Таймер приостановлен"</string>

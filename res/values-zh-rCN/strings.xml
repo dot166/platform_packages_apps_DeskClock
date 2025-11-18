@@ -367,6 +367,9 @@
     <string name="timer_service_desc" msgid="2256002649882602433">"处理可通过定时器通知执行的操作。"</string>
     <string name="stopwatch_service_desc" msgid="9220132827343760767">"处理可通过秒表通知执行的操作。"</string>
     <string name="swn_paused" msgid="6364358842808263589">"已暂停"</string>
+    <string name="description_direction_right" msgid="5709209043267548985">"向右滑动可关闭闹钟"</string>
+    <string name="description_direction_left" msgid="7448141043674998679">"向左滑动可暂停闹钟"</string>
+    <string name="description_direction_both" msgid="1841309486023845685">"向左滑动可暂停，向右滑动可关闭"</string>
     <string name="timer_settings" msgid="7955522143086154795">"定时器"</string>
     <string name="timer_vibrate_title" msgid="7788920024785587518">"定时器振动"</string>
     <string name="timer_paused" msgid="5941160896040771462">"定时器已暂停"</string>

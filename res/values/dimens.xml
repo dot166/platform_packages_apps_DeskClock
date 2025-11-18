@@ -30,11 +30,16 @@
     <dimen name="alarm_clock_vertical_margin">12dip</dimen>
 
     <!-- Analog clock size in the the screen saver -->
+    <dimen name="bottom_text_size">16sp</dimen>
 
     <dimen name="circletimer_circle_size">6dp</dimen>
     <dimen name="stopwatch_circle_size">12dp</dimen>
     <dimen name="max_timer_circle_size">240dp</dimen>
     <dimen name="max_stopwatch_circle_size">320dp</dimen>
+
+    <dimen name="alarm_lockscreen_alarm_horizontal_padding">16dp</dimen>
+    <dimen name="alarm_lockscreen_pulse_radius">128dp</dimen>
+    <dimen name="alarm_lockscreen_bottom_margin">40dp</dimen>
 
     <dimen name="main_clock_font_size">64sp</dimen>
     <dimen name="main_clock_digital_font_size">90sp</dimen>

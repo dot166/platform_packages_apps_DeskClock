@@ -367,6 +367,9 @@
     <string name="timer_service_desc" msgid="2256002649882602433">"Verarbeitet Aktionen von Timer-Benachrichtigungen."</string>
     <string name="stopwatch_service_desc" msgid="9220132827343760767">"Verarbeitet Aktionen von Stoppuhr-Benachrichtigungen."</string>
     <string name="swn_paused" msgid="6364358842808263589">"Angehalten"</string>
+    <string name="description_direction_right" msgid="5709209043267548985">"Zum Schließen nach rechts wischen"</string>
+    <string name="description_direction_left" msgid="7448141043674998679">"Zum Schlummern nach links wischen"</string>
+    <string name="description_direction_both" msgid="1841309486023845685">"Zum Schlummern nach links, zum Schließen nach rechts wischen"</string>
     <string name="timer_settings" msgid="7955522143086154795">"Timer"</string>
     <string name="timer_vibrate_title" msgid="7788920024785587518">"Vibrationsalarm des Timers"</string>
     <string name="timer_paused" msgid="5941160896040771462">"Timer pausiert"</string>

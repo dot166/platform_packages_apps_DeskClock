@@ -382,6 +382,9 @@
     <string name="timer_service_desc">Dèilig ri gnìomhan o bhrathan tìmeir.</string>
     <string name="stopwatch_service_desc">Dèilig ri gnìomhan o bhrathan stad-uaireadair.</string>
     <string name="swn_paused">’Na stad</string>
+    <string name="description_direction_right">Grad-shlaighd gu deas ’ga leigeil seachad</string>
+    <string name="description_direction_left">Grad-shlaighd gu clì ’ga chur ’na dhùsal</string>
+    <string name="description_direction_both">Grad-shlaighd gu clì ’ga chur ’na dhùsal no gun taobh deas ’ga leigeil seachad</string>
     <string name="timer_settings">Tìmearan</string>
     <string name="timer_vibrate_title">Nì an tìmear crith</string>
     <string name="timer_paused">Tha an tìmear ’na stad</string>

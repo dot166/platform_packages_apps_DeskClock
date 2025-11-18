@@ -367,6 +367,9 @@
     <string name="timer_service_desc" msgid="2256002649882602433">"Verwerkt acties van timermeldingen."</string>
     <string name="stopwatch_service_desc" msgid="9220132827343760767">"Verwerkt acties van stopwatchmeldingen."</string>
     <string name="swn_paused" msgid="6364358842808263589">"Onderbroken"</string>
+    <string name="description_direction_right" msgid="5709209043267548985">"Veeg naar rechts om uit te zetten"</string>
+    <string name="description_direction_left" msgid="7448141043674998679">"Veeg naar links om te snoozen"</string>
+    <string name="description_direction_both" msgid="1841309486023845685">"Veeg naar links om te snoozen of naar rechts om te sluiten"</string>
     <string name="timer_settings" msgid="7955522143086154795">"Timers"</string>
     <string name="timer_vibrate_title" msgid="7788920024785587518">"Trillen voor timer"</string>
     <string name="timer_paused" msgid="5941160896040771462">"Timer gepauzeerd"</string>
