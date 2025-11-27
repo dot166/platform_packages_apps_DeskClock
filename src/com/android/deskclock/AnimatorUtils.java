@@ -34,6 +34,8 @@ import android.widget.ImageView;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
+import com.google.android.material.button.MaterialButton;
+
 public class AnimatorUtils {
 
     public static final Interpolator DECELERATE_ACCELERATE_INTERPOLATOR =
@@ -77,36 +79,38 @@ public class AnimatorUtils {
         background.setAlpha(value);
     }
 
-    public static final Property<ImageView, Integer> DRAWABLE_ALPHA =
-            new Property<ImageView, Integer>(Integer.class, "drawable.alpha") {
+    public static final Property<MaterialButton, Integer> DRAWABLE_ALPHA =
+            new Property<MaterialButton, Integer>(Integer.class, "drawable.alpha") {
         @Override
-        public Integer get(ImageView view) {
-            return view.getDrawable().getAlpha();
+        public Integer get(MaterialButton view) {
+            return view.getIcon().getAlpha();
         }
 
         @Override
-        public void set(ImageView view, Integer value) {
-            view.getDrawable().setAlpha(value);
+        public void set(MaterialButton view, Integer value) {
+            view.getIcon().setAlpha(value);
         }
     };
 
-    public static final Property<ImageView, Integer> DRAWABLE_TINT =
-            new Property<ImageView, Integer>(Integer.class, "drawable.tint") {
+    public static final Property<MaterialButton, Integer> DRAWABLE_TINT =
+            new Property<MaterialButton, Integer>(Integer.class, "drawable.tint") {
         @Override
-        public Integer get(ImageView view) {
+        public Integer get(MaterialButton view) {
             return null;
         }
 
         @Override
-        public void set(ImageView view, Integer value) {
+        public void set(MaterialButton view, Integer value) {
             // Ensure the drawable is wrapped using DrawableCompat.
-            final Drawable drawable = view.getDrawable();
-            final Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
-            if (wrappedDrawable != drawable) {
-                view.setImageDrawable(wrappedDrawable);
+            final Drawable drawable = view.getIcon();
+            if (drawable != null) {
+                final Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+                if (wrappedDrawable != drawable) {
+                    view.setIcon(wrappedDrawable);
+                }
+                // Set the new tint value via DrawableCompat.
+                DrawableCompat.setTint(wrappedDrawable, value);
             }
-            // Set the new tint value via DrawableCompat.
-            DrawableCompat.setTint(wrappedDrawable, value);
         }
     };
 
