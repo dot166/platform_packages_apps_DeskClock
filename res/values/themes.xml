@@ -17,7 +17,7 @@
 
 <resources>
 
-    <style name="Theme.DeskClock" parent="j.Theme">
+    <style name="Theme.DeskClock" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:colorBackgroundFloating">?attr/colorBackgroundFloating</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
 
@@ -27,12 +27,6 @@
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="snackbarStyle">@style/SnackBarStyle</item>
         <item name="actionBarSize">64dp</item>
-    </style>
-
-    <style name="Theme.DeskClock.Settings">
-        <item name="elevationOverlayColor">?attr/colorPrimary</item>
-        <item name="colorControlActivated">?attr/colorSecondary</item>
-        <item name="android:dropDownSpinnerStyle">@style/DeskClock.Settings.DropDownSpinnerStyle</item>
     </style>
 
     <style name="Theme.DeskClock.CitySelection">

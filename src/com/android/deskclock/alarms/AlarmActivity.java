@@ -211,6 +211,12 @@ public class AlarmActivity extends BaseActivity
         mAlarmButton.setOnTouchListener(this);
         mSnoozeButton.setOnClickListener(this);
         mDismissButton.setOnClickListener(this);
+        if (mSnoozeButton.getIcon() != null) {
+            mSnoozeButton.getIcon().setTint(Color.WHITE);
+        }
+        if (mDismissButton.getIcon() != null) {
+            mDismissButton.getIcon().setTint(Color.WHITE);
+        }
 
         mAlarmAnimator = AnimatorUtils.getScaleAnimator(mAlarmButton, 1.0f, 0.0f);
         mSnoozeAnimator = getButtonAnimator(mSnoozeButton, Color.WHITE);

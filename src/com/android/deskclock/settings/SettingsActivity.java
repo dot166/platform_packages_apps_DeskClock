@@ -32,7 +32,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.ListPreferenceDialogFragmentCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.TwoStatePreference;
 
 import com.android.deskclock.R;
@@ -43,12 +42,15 @@ import com.android.deskclock.data.TimeZones;
 import com.android.deskclock.data.Weekdays;
 import com.android.deskclock.events.Events;
 import com.android.deskclock.ringtone.RingtonePickerActivity;
-import com.android.deskclock.widget.CollapsingToolbarBaseActivity;
+
+import com.android.settingslib.preference.PreferenceFragment;
+
+import io.github.dot166.jlib.app.jConfigActivity;
 
 /**
  * Settings for the Alarm Clock.
  */
-public final class SettingsActivity extends CollapsingToolbarBaseActivity {
+public final class SettingsActivity extends jConfigActivity {
 
     public static final String KEY_ALARM_SNOOZE = "snooze_duration";
     public static final String KEY_ALARM_CRESCENDO = "alarm_crescendo_duration";
@@ -76,20 +78,13 @@ public final class SettingsActivity extends CollapsingToolbarBaseActivity {
     public static final String PREFS_FRAGMENT_TAG = "prefs_fragment";
     public static final String PREFERENCE_DIALOG_FRAGMENT_TAG = "preference_dialog";
 
+    @NonNull
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Create the prefs fragment in code to ensure it's created before PreferenceDialogFragment
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new PrefsFragment(), PREFS_FRAGMENT_TAG)
-                    .disallowAddToBackStack()
-                    .commit();
-        }
+    public PreferenceFragment preferenceFragment() {
+        return new PrefsFragment();
     }
 
-    public static class PrefsFragment extends PreferenceFragmentCompat implements
+    public static class PrefsFragment extends PreferenceFragment implements
             Preference.OnPreferenceChangeListener,
             Preference.OnPreferenceClickListener {
 

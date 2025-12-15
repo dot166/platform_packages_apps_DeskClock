@@ -58,7 +58,8 @@ import com.android.deskclock.RingtonePreviewKlaxon;
 import com.android.deskclock.alarms.AlarmUpdateHandler;
 import com.android.deskclock.data.DataModel;
 import com.android.deskclock.provider.Alarm;
-import com.android.deskclock.widget.CollapsingToolbarBaseActivity;
+
+import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

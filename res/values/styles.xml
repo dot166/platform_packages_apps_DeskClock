@@ -104,10 +104,6 @@
         <item name="dialogCornerRadius">28dp</item>
     </style>
 
-    <style name="DeskClock.Settings.DropDownSpinnerStyle" parent="@android:style/Widget.Material.Spinner">
-        <item name="android:popupBackground">@drawable/popup_background</item>
-    </style>
-
     <style name="TimerLabelTextAppearance" parent="SecondaryLabelTextAppearance">
         <item name="android:textSize">20sp</item>
     </style>

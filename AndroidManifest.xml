@@ -16,7 +16,6 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.deskclock">
 
     <original-package android:name="com.android.alarmclock" />
@@ -48,7 +47,6 @@
         android:label="@string/app_label"
         android:requiredForAllUsers="true"
         android:supportsRtl="true"
-        tools:replace="android:name"
         android:theme="@style/Theme.DeskClock">
 
         <!-- ============================================================== -->
@@ -87,8 +85,7 @@
             android:excludeFromRecents="true"
             android:label="@string/settings"
             android:parentActivityName=".DeskClock"
-            android:taskAffinity=""
-            android:theme="@style/Theme.DeskClock.Settings" />
+            android:taskAffinity="" />
 
         <activity
             android:name=".HandleShortcuts"
@@ -239,8 +236,7 @@
             android:name=".settings.ScreensaverSettingsActivity"
             android:excludeFromRecents="true"
             android:label="@string/screensaver_settings"
-            android:taskAffinity=""
-            android:theme="@style/Theme.DeskClock.Settings" />
+            android:taskAffinity="" />
 
         <service
             android:name=".Screensaver"

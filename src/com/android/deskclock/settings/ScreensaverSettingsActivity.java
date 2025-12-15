@@ -19,21 +19,23 @@ package com.android.deskclock.settings;
 
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.deskclock.R;
 import com.android.deskclock.data.DataModel;
-import com.android.deskclock.widget.CollapsingToolbarBaseActivity;
+
+import com.android.settingslib.preference.PreferenceFragment;
+
+import io.github.dot166.jlib.app.jConfigActivity;
 
 /**
  * Settings for Clock screen saver
  */
-public final class ScreensaverSettingsActivity extends CollapsingToolbarBaseActivity {
+public final class ScreensaverSettingsActivity extends jConfigActivity {
 
     public static final String KEY_CLOCK_STYLE = "screensaver_clock_style";
     public static final String KEY_CLOCK_COLOR = "screensaver_clock_color";
@@ -47,29 +49,14 @@ public final class ScreensaverSettingsActivity extends CollapsingToolbarBaseActi
     private static final String PREFS_FRAGMENT_TAG = "prefs_fragment";
     private static final String CLOCK_STYLE_DIGITAL = "digital";
 
+    @NonNull
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new PrefsFragment(), PREFS_FRAGMENT_TAG)
-                    .disallowAddToBackStack()
-                    .commit();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public PreferenceFragment preferenceFragment() {
+        return new PrefsFragment();
     }
 
 
-    public static class PrefsFragment extends PreferenceFragmentCompat
+    public static class PrefsFragment extends PreferenceFragment
             implements Preference.OnPreferenceChangeListener {
 
 
