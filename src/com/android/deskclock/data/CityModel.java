@@ -163,7 +163,7 @@ final class CityModel {
      */
     List<City> getSelectedCities() {
         if (mSelectedCities == null) {
-            final List<City> selectedCities = CityDAO.getSelectedCities(mPrefs, getCityMap());
+            final List<City> selectedCities = CityDAO.getSelectedCities(mPrefs, getCityMap(), mContext);
             Collections.sort(selectedCities, new City.UtcOffsetComparator());
             mSelectedCities = Collections.unmodifiableList(selectedCities);
         }

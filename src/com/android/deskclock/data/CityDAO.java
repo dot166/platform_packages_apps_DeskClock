@@ -16,6 +16,7 @@
 
 package com.android.deskclock.data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -57,8 +58,17 @@ final class CityDAO {
      * @param cityMap maps city ids to city instances
      * @return the list of city ids selected for display by the user
      */
-    static List<City> getSelectedCities(SharedPreferences prefs, Map<String, City> cityMap) {
-        final int size = prefs.getInt(NUMBER_OF_CITIES, 0);
+    @SuppressLint("ResourceType")
+    static List<City> getSelectedCities(SharedPreferences prefs, Map<String, City> cityMap, Context context) {
+        int size = prefs.getInt(NUMBER_OF_CITIES, -1);
+        if (size < 0) {
+            final Resources resources = context.getResources();
+            @SuppressLint("Recycle") final TypedArray cityStrings = resources.obtainTypedArray(R.array.city_ids);
+            prefs.edit().putInt(NUMBER_OF_CITIES, 2).apply();
+            prefs.edit().putString(CITY_ID + 0, resources.getResourceEntryName(cityStrings.getResourceId(166, 0))).apply(); // Edinburgh
+            prefs.edit().putString(CITY_ID + 1, resources.getResourceEntryName(cityStrings.getResourceId(133, 0))).apply(); // Tokyo
+            size = 2;
+        }
         final List<City> selectedCities = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
