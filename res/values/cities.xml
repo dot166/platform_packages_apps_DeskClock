@@ -188,6 +188,7 @@
         <item>@string/C169</item>
         <item>@string/C170</item>
         <item>@string/C171</item>
+        <item>@string/C349</item>
         <item>@string/C172</item>
         <item>@string/C173</item>
         <item>@string/C174</item>
@@ -1073,5 +1074,7 @@
     <string name="C347">Y<xliff:g id="separator">=</xliff:g>Yaren District<xliff:g id="timezone">|Pacific/Nauru</xliff:g></string>
     <!-- Format: [index]=[city name]|[timezone id] -->
     <string name="C348">Y<xliff:g id="separator">=</xliff:g>Yerevan<xliff:g id="timezone">|Asia/Yerevan</xliff:g></string>
+    <!-- Format: [index]=[city name]|[timezone id] -->
+    <string name="C349">E<xliff:g id="separator">=</xliff:g>Edinburgh<xliff:g id="timezone">|Europe/London</xliff:g></string>
 
 </resources>
