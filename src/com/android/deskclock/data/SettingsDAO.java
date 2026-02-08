@@ -142,7 +142,7 @@ final class SettingsDAO {
      * @return a value indicating whether analog or digital clocks are displayed in the app
      */
     static boolean getDisplayClockSeconds(SharedPreferences prefs) {
-       return prefs.getBoolean(SettingsActivity.KEY_CLOCK_DISPLAY_SECONDS, false);
+       return prefs.getBoolean(SettingsActivity.KEY_CLOCK_DISPLAY_SECONDS, true);
     }
 
     /**
@@ -150,18 +150,6 @@ final class SettingsDAO {
      */
     static void setDisplayClockSeconds(SharedPreferences prefs, boolean displaySeconds) {
         prefs.edit().putBoolean(SettingsActivity.KEY_CLOCK_DISPLAY_SECONDS, displaySeconds).apply();
-    }
-
-    /**
-     * Sets the user's display seconds preference based on the currently selected clock if one has
-     * not yet been manually chosen.
-     */
-    static void setDefaultDisplayClockSeconds(Context context, SharedPreferences prefs) {
-        if (!prefs.contains(SettingsActivity.KEY_CLOCK_DISPLAY_SECONDS)) {
-            // If on analog clock style on upgrade, default to true. Otherwise, default to false.
-            final boolean isAnalog = getClockStyle(context, prefs) == ClockStyle.ANALOG;
-            setDisplayClockSeconds(prefs, isAnalog);
-        }
     }
 
     /**

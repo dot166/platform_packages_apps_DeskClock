@@ -47,9 +47,6 @@ final class SettingsModel {
         mContext = context;
         mPrefs = prefs;
         mTimeModel = timeModel;
-
-        // Set the user's default display seconds preference if one has not yet been chosen.
-        SettingsDAO.setDefaultDisplayClockSeconds(mContext, prefs);
     }
 
     int getGlobalIntentId() {
