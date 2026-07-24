@@ -16,6 +16,8 @@
 
 package com.android.deskclock.data;
 
+import static com.android.launcher3.nexus.bottombar.util.NexusUtilsKt.getLocalizedResources;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,11 +30,14 @@ import com.android.deskclock.Utils;
 import com.android.deskclock.data.DataModel.CitySort;
 import com.android.deskclock.settings.SettingsActivity;
 
+import kotlin.Pair;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
@@ -64,19 +69,19 @@ final class CityModel {
     private final List<CityListener> mCityListeners = new ArrayList<>();
 
     /** Maps city ID to city instance. */
-    private Map<String, City> mCityMap;
+    private Pair<Locale, Map<String, City>> mCityMap;
 
     /** List of city instances in display order. */
-    private List<City> mAllCities;
+    private Pair<Locale, List<City>> mAllCities;
 
     /** List of selected city instances in display order. */
-    private List<City> mSelectedCities;
+    private Pair<Locale, List<City>> mSelectedCities;
 
     /** List of unselected city instances in display order. */
-    private List<City> mUnselectedCities;
+    private Pair<Locale, List<City>> mUnselectedCities;
 
     /** A city instance representing the home timezone of the user. */
-    private City mHomeCity;
+    private Pair<Locale, City> mHomeCity;
 
     CityModel(Context context, SharedPreferences prefs, SettingsModel settingsModel) {
         mContext = context;
@@ -102,47 +107,47 @@ final class CityModel {
     /**
      * @return a list of all cities in their display order
      */
-    List<City> getAllCities() {
-        if (mAllCities == null) {
+    List<City> getAllCities(Locale locale) {
+        if (mAllCities == null || mAllCities.getFirst() != locale) {
             // Create a set of selections to identify the unselected cities.
-            final List<City> selected = new ArrayList<>(getSelectedCities());
+            final List<City> selected = new ArrayList<>(getSelectedCities(locale));
 
             // Sort the selected cities alphabetically by name.
             Collections.sort(selected, new City.NameComparator());
 
             // Combine selected and unselected cities into a single list.
-            final List<City> allCities = new ArrayList<>(getCityMap().size());
+            final List<City> allCities = new ArrayList<>(getCityMap(locale).size());
             allCities.addAll(selected);
-            allCities.addAll(getUnselectedCities());
-            mAllCities = Collections.unmodifiableList(allCities);
+            allCities.addAll(getUnselectedCities(locale));
+            mAllCities = new Pair<>(locale, Collections.unmodifiableList(allCities));
         }
 
-        return mAllCities;
+        return mAllCities.getSecond();
     }
 
     /**
      * @return a city representing the user's home timezone
      */
-    City getHomeCity() {
-        if (mHomeCity == null) {
+    City getHomeCity(Locale locale) {
+        if (mHomeCity == null || mHomeCity.getFirst() != locale) {
             final String name = mContext.getString(R.string.home_label);
             final TimeZone timeZone = mSettingsModel.getHomeTimeZone();
-            mHomeCity = new City(null, -1, null, name, name, timeZone);
+            mHomeCity = new Pair<>(locale, new City(null, -1, null, name, name, timeZone));
         }
 
-        return mHomeCity;
+        return mHomeCity.getSecond();
     }
 
     /**
      * @return a list of cities not selected for display
      */
-    List<City> getUnselectedCities() {
-        if (mUnselectedCities == null) {
+    List<City> getUnselectedCities(Locale locale) {
+        if (mUnselectedCities == null || mUnselectedCities.getFirst() != locale) {
             // Create a set of selections to identify the unselected cities.
-            final List<City> selected = new ArrayList<>(getSelectedCities());
+            final List<City> selected = new ArrayList<>(getSelectedCities(locale));
             final Set<City> selectedSet = Utils.newArraySet(selected);
 
-            final Collection<City> all = getCityMap().values();
+            final Collection<City> all = getCityMap(locale).values();
             final List<City> unselected = new ArrayList<>(all.size() - selectedSet.size());
             for (City city : all) {
                 if (!selectedSet.contains(city)) {
@@ -152,30 +157,30 @@ final class CityModel {
 
             // Sort the unselected cities according by the user's preferred sort.
             Collections.sort(unselected, getCitySortComparator());
-            mUnselectedCities = Collections.unmodifiableList(unselected);
+            mUnselectedCities = new Pair<>(locale, Collections.unmodifiableList(unselected));
         }
 
-        return mUnselectedCities;
+        return mUnselectedCities.getSecond();
     }
 
     /**
      * @return a list of cities selected for display
      */
-    List<City> getSelectedCities() {
-        if (mSelectedCities == null) {
-            final List<City> selectedCities = CityDAO.getSelectedCities(mPrefs, getCityMap(), mContext);
+    List<City> getSelectedCities(Locale locale) {
+        if (mSelectedCities == null || mSelectedCities.getFirst() != locale) {
+            final List<City> selectedCities = CityDAO.getSelectedCities(mPrefs, getCityMap(locale), getLocalizedResources(locale, mContext));
             Collections.sort(selectedCities, new City.UtcOffsetComparator());
-            mSelectedCities = Collections.unmodifiableList(selectedCities);
+            mSelectedCities = new Pair<>(locale, Collections.unmodifiableList(selectedCities));
         }
 
-        return mSelectedCities;
+        return mSelectedCities.getSecond();
     }
 
     /**
      * @param cities the new collection of cities selected for display by the user
      */
-    void setSelectedCities(Collection<City> cities) {
-        final List<City> oldCities = getAllCities();
+    void setSelectedCities(Collection<City> cities, Locale locale) {
+        final List<City> oldCities = getAllCities(locale);
         CityDAO.setSelectedCities(mPrefs, cities);
 
         // Clear caches affected by this update.
@@ -184,7 +189,7 @@ final class CityModel {
         mUnselectedCities = null;
 
         // Broadcast the change to the selected cities for the benefit of widgets.
-        fireCitiesChanged(oldCities, getAllCities());
+        fireCitiesChanged(oldCities, getAllCities(locale));
     }
 
     /**
@@ -217,12 +222,12 @@ final class CityModel {
         mUnselectedCities = null;
     }
 
-    private Map<String, City> getCityMap() {
-        if (mCityMap == null) {
-            mCityMap = CityDAO.getCities(mContext);
+    private Map<String, City> getCityMap(Locale locale) {
+        if (mCityMap == null || mCityMap.getFirst() != locale) {
+            mCityMap = new Pair<>(locale, CityDAO.getCities(getLocalizedResources(locale, mContext)));
         }
 
-        return mCityMap;
+        return mCityMap.getSecond();
     }
 
     private Comparator<City> getCitySortComparator() {
@@ -266,7 +271,7 @@ final class CityModel {
                 case SettingsActivity.KEY_HOME_TZ:
                     mHomeCity = null;
                 case SettingsActivity.KEY_AUTO_HOME_CLOCK:
-                    final List<City> cities = getAllCities();
+                    final List<City> cities = getAllCities(Locale.getDefault());
                     fireCitiesChanged(cities, cities);
                     break;
             }

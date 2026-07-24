@@ -53,6 +53,7 @@
         android:label="@string/app_label"
         android:requiredForAllUsers="true"
         android:supportsRtl="true"
+        android:localeConfig="@xml/locale_config"
         android:theme="@style/Theme.DeskClock">
 
         <!-- ============================================================== -->
@@ -297,6 +298,12 @@
         <service
             android:name="com.android.alarmclock.DigitalAppWidgetCityService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name=".nexus.BottomBarCityProviderService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.launcher3.nexus.bottombar.BOTTOM_BAR_PROVIDER"/>
+            </intent-filter>
+        </service>
 
     </application>
 </manifest>

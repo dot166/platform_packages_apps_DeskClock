@@ -59,10 +59,9 @@ final class CityDAO {
      * @return the list of city ids selected for display by the user
      */
     @SuppressLint("ResourceType")
-    static List<City> getSelectedCities(SharedPreferences prefs, Map<String, City> cityMap, Context context) {
+    static List<City> getSelectedCities(SharedPreferences prefs, Map<String, City> cityMap, Resources resources) {
         int size = prefs.getInt(NUMBER_OF_CITIES, -1);
         if (size < 0) {
-            final Resources resources = context.getResources();
             @SuppressLint("Recycle") final TypedArray cityStrings = resources.obtainTypedArray(R.array.city_ids);
             prefs.edit().putInt(NUMBER_OF_CITIES, 2).apply();
             prefs.edit().putString(CITY_ID + 0, resources.getResourceEntryName(cityStrings.getResourceId(166, 0))).apply(); // Edinburgh
@@ -101,8 +100,7 @@ final class CityDAO {
     /**
      * @return the domain of cities from which the user may choose a world clock
      */
-    static Map<String, City> getCities(Context context) {
-        final Resources resources = context.getResources();
+    static Map<String, City> getCities(Resources resources) {
         final TypedArray cityStrings = resources.obtainTypedArray(R.array.city_ids);
         final int citiesCount = cityStrings.length();
 

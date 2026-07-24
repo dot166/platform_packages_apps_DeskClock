@@ -38,6 +38,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.AUDIO_SERVICE;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
@@ -320,40 +321,75 @@ public final class DataModel {
      * @return a list of all cities in their display order
      */
     public List<City> getAllCities() {
+        return getAllCities(Locale.getDefault());
+    }
+
+    /**
+     * @return a list of all cities in their display order
+     */
+    public List<City> getAllCities(Locale locale) {
         enforceMainLooper();
-        return mCityModel.getAllCities();
+        return mCityModel.getAllCities(locale);
     }
 
     /**
      * @return a city representing the user's home timezone
      */
     public City getHomeCity() {
+        return getHomeCity(Locale.getDefault());
+    }
+
+    /**
+     * @return a city representing the user's home timezone
+     */
+    public City getHomeCity(Locale locale) {
         enforceMainLooper();
-        return mCityModel.getHomeCity();
+        return mCityModel.getHomeCity(locale);
     }
 
     /**
      * @return a list of cities not selected for display
      */
     public List<City> getUnselectedCities() {
+        return getUnselectedCities(Locale.getDefault());
+    }
+
+    /**
+     * @return a list of cities not selected for display
+     */
+    public List<City> getUnselectedCities(Locale locale) {
         enforceMainLooper();
-        return mCityModel.getUnselectedCities();
+        return mCityModel.getUnselectedCities(locale);
     }
 
     /**
      * @return a list of cities selected for display
      */
     public List<City> getSelectedCities() {
+        return getSelectedCities(Locale.getDefault());
+    }
+
+    /**
+     * @return a list of cities selected for display
+     */
+    public List<City> getSelectedCities(Locale locale) {
         enforceMainLooper();
-        return mCityModel.getSelectedCities();
+        return mCityModel.getSelectedCities(locale);
     }
 
     /**
      * @param cities the new collection of cities selected for display by the user
      */
     public void setSelectedCities(Collection<City> cities) {
+        setSelectedCities(cities, Locale.getDefault());
+    }
+
+    /**
+     * @param cities the new collection of cities selected for display by the user
+     */
+    public void setSelectedCities(Collection<City> cities, Locale locale) {
         enforceMainLooper();
-        mCityModel.setSelectedCities(cities);
+        mCityModel.setSelectedCities(cities, locale);
     }
 
     /**
