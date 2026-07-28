@@ -48,14 +48,22 @@ class BottomBarCityProvider(context: Context,
                 val displayDayOfWeek =
                     localCal.get(Calendar.DAY_OF_WEEK) != cityCal.get(Calendar.DAY_OF_WEEK)
 
+                val hours = if (DataModel.getDataModel().is24HourFormat) { cityCal.get(Calendar.HOUR_OF_DAY) } else { cityCal.get(Calendar.HOUR) }
+                val minutes = cityCal.get(Calendar.MINUTE)
+                val timeString = String.format(
+                    locale,
+                    "%2d:%02d",
+                    hours,
+                    minutes
+                )
                 val time = if (displayDayOfWeek) {
                     val weekday =
                         cityCal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, locale)
                     val slashDay: String =
                         context.getString(R.string.world_day_of_week_label, weekday)
-                    "${cityCal.get(Calendar.HOUR_OF_DAY)}:${cityCal.get(Calendar.MINUTE)}$slashDay"
+                    "$timeString$slashDay"
                 } else {
-                    "${cityCal.get(Calendar.HOUR_OF_DAY)}:${cityCal.get(Calendar.MINUTE)}"
+                    timeString
                 }
                 list.add(SmartspaceTarget(city.id, SmartspaceAction(city.id, title = city.name, subtitle = time), score = SmartspaceScores.SCORE_WORLD_CLOCKS, featureType = SmartspaceTarget.FeatureType.FEATURE_WORLD_CLOCKS))
             }
