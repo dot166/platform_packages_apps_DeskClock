@@ -4,11 +4,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
 import com.android.deskclock.R
 import com.android.deskclock.data.DataModel
 import com.android.launcher3.nexus.bottombar.lawnchair.util.broadcastReceiverFlow
-import com.android.launcher3.nexus.bottombar.model.SmartspaceAction
 import com.android.launcher3.nexus.bottombar.model.SmartspaceScores
 import com.android.launcher3.nexus.bottombar.model.SmartspaceTarget
 import com.android.launcher3.nexus.bottombar.provider.BottomBarDataSource
@@ -32,7 +30,7 @@ class BottomBarCityProvider(context: Context,
         addAction(Intent.ACTION_LOCALE_CHANGED)
         addAction(ACTION_BOTTOM_BAR_FORCE_UPDATE_BROADCAST)
     }
-    override fun internalTargets(locale: Locale): Flow<List<SmartspaceTarget>> = broadcastReceiverFlow(context, intentFilter)
+    override fun internalTargets(locale: Locale): Flow<List<SmartspaceTarget>> = broadcastReceiverFlow(context, intentFilter, true)
         .map { intent ->
             val list = mutableListOf<SmartspaceTarget>()
             val cities = if (DataModel.getDataModel().getShowHomeClock()) {
@@ -65,7 +63,7 @@ class BottomBarCityProvider(context: Context,
                 } else {
                     timeString
                 }
-                list.add(SmartspaceTarget(city.id, SmartspaceAction(city.id, title = city.name, subtitle = time), score = SmartspaceScores.SCORE_WORLD_CLOCKS, featureType = SmartspaceTarget.FeatureType.FEATURE_WORLD_CLOCKS))
+                list.add(SmartspaceTarget(city.id, title = city.name, subtitle = time, score = SmartspaceScores.SCORE_WORLD_CLOCKS, featureType = SmartspaceTarget.FeatureType.FEATURE_WORLD_CLOCKS))
             }
             list
         }
